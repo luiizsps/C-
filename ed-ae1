@@ -47,7 +47,6 @@ void Teste1(int numero) {
   x++;
 }
 
-
 void Teste2(int &numero) {
   int valor = 100;
   numero = numero + valor;
@@ -62,3 +61,4 @@ int Teste3(int n) {
 }
 
 // A variável global 'x' somente deixa de ter seu espaço na memória quando o programa é fechado.
+// cod em outro arquivo
