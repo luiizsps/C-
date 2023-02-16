@@ -2,7 +2,7 @@
 using namespace std;
 
 void inserirSemRepetir(int v[], int valor, int &pos, int max);
-bool pertenceALista(int v[], int valor, int &pos);
+bool pertenceALista(int v[], int valor, int pos);
 void listar(int v[], int pos);
 int intercalaElementos(int v[], int v2[], int vetor, int &pos, int &pos2,
                        int &contador);
@@ -44,15 +44,17 @@ int main(void) {
   for (i = 0; i < posv; i++) {
     aux = intersecElementos(inter, intersec, posv, i, contador2);
     if (aux != -1) {
-      intersec[i] = aux;
+      intersec[contador2] = aux;
+      contador2 ++;
     }
   }
+  
   if (contador2 == 0) {
     cout << "Sem intersecções." << endl;
     cout << contador2;
   } else {
     cout << "Lista de intersecções: " << endl;
-    listar(inter, contador2);
+    listar(intersec, contador2);
   }
 }
 
@@ -65,7 +67,7 @@ void inserirSemRepetir(int v[], int valor, int &pos, int max) {
   }
 }
 
-bool pertenceALista(int v[], int valor, int &pos) {
+bool pertenceALista(int v[], int valor, int pos) {
   int i;
 
   for (i = 0; i < pos; i++) {
@@ -107,14 +109,15 @@ int intercalaElementos(int v[], int v2[], int i, int &pos, int &pos2,
 }
 
 int intersecElementos(int inter[], int intersec[], int pos, int i,
-                      int &contador) {
-  int j;
+                      int &contador2) {
+  int j, k;
+  bool pertence = false;
+  
   for (j = 0; j < pos; j++) {
     if (j != i) {
       if (inter[j] == inter[i]) {
-        if (!pertenceALista(intersec, inter[j], contador)) {
-          contador++;
-          return inter[j];
+        if(!pertenceALista(intersec, inter[i], contador2)) {
+          return inter[i];
         }
       }
     }
