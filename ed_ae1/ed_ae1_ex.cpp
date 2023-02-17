@@ -8,11 +8,12 @@ int intercalaElementos(int v[], int v2[], int vetor, int &pos, int &pos2,
                        int &contador);
 int intersecElementos(int inter[], int intersec[], int pos, int i,
                       int &contador);
+int ordenaLista(int v[], int contador, int pos);
+
 
 int main(void) {
-  int v[10], v2[10], inter[20], intersec[10], valor,
-      pos = 0, posv, pos2 = 0, pos2v, max = 10, i, contador = 0, contador2 = 0,
-      aux;
+  int v[10], v2[10], inter[20], intersec[10], ordenada[20], valor,
+      pos = 0, posv, pos2 = 0, pos2v, max = 10, i, contador = 0, contador2 = 0, aux;
 
   do {
     cout << "Primeiro vetor - Informe um inteiro, digite -1 para encerrar: ";
@@ -56,6 +57,11 @@ int main(void) {
     cout << "Lista de intersecções: " << endl;
     listar(intersec, contador2);
   }
+
+  for(i = 0; i < contador; i++) {
+      ordenada[i] = ordenaLista(inter, contador, i);
+  }
+  listar(ordenada, contador);
 }
 
 void inserirSemRepetir(int v[], int valor, int &pos, int max) {
@@ -110,8 +116,7 @@ int intercalaElementos(int v[], int v2[], int i, int &pos, int &pos2,
 
 int intersecElementos(int inter[], int intersec[], int pos, int i,
                       int &contador2) {
-  int j, k;
-  bool pertence = false;
+  int j;
   
   for (j = 0; j < pos; j++) {
     if (j != i) {
@@ -123,4 +128,16 @@ int intersecElementos(int inter[], int intersec[], int pos, int i,
     }
   }
   return -1;
+}
+
+int ordenaLista(int v[], int contador, int pos) {
+  int j, menor_numero;
+  menor_numero = pos;
+  
+  for(j = 0; j < contador; j++) {
+    if(v[menor_numero] > v[j]) {
+      menor_numero = j;
+    }
+  }
+  return v[menor_numero];
 }
