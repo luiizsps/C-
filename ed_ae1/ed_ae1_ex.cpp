@@ -8,12 +8,12 @@ int intercalaElementos(int v[], int v2[], int vetor, int &pos, int &pos2,
                        int &contador);
 int intersecElementos(int inter[], int intersec[], int pos, int i,
                       int &contador);
-int ordenaLista(int v[], int contador, int pos);
+int ordenaLista(int v[], int valorAnterior, int contador, int pos, int ordenada[]);
 
 
 int main(void) {
   int v[10], v2[10], inter[20], intersec[10], ordenada[20], valor,
-      pos = 0, posv, pos2 = 0, pos2v, max = 10, i, contador = 0, contador2 = 0, aux;
+      pos = 0, posv, pos2 = 0, tamanhoTotal, valorAnterior, pos2v, max = 10, i, contador = 0, contador2 = 0, contador3 = 0, aux;
 
   do {
     cout << "Primeiro vetor - Informe um inteiro, digite -1 para encerrar: ";
@@ -32,10 +32,11 @@ int main(void) {
   cout << "Lista 2: " << endl;
   listar(v2, pos2);
 
+  tamanhoTotal = pos + pos2;
   posv = pos;
   pos2v = pos2;
 
-  for (i = 0; i < (pos + pos2); i++) {
+  for (i = 0; i < tamanhoTotal; i++) {
     inter[i] = intercalaElementos(v, v2, i, posv, pos2v, contador);
   }
   posv = i;
@@ -52,16 +53,21 @@ int main(void) {
   
   if (contador2 == 0) {
     cout << "Sem intersecções." << endl;
-    cout << contador2;
   } else {
     cout << "Lista de intersecções: " << endl;
     listar(intersec, contador2);
   }
 
-  for(i = 0; i < contador; i++) {
-      ordenada[i] = ordenaLista(inter, contador, i);
+  cout << "Lista ordenada: " << endl;
+  for(i = 0; i < tamanhoTotal; i++) {
+    valorAnterior = ordenada[i-1];
+    aux = ordenaLista(inter, valorAnterior, tamanhoTotal, i, ordenada);
+    if (aux != -1) {
+      ordenada[i] = aux;
+      contador3++;
+    }
   }
-  listar(ordenada, contador);
+  listar(ordenada, contador3);
 }
 
 void inserirSemRepetir(int v[], int valor, int &pos, int max) {
@@ -130,14 +136,26 @@ int intersecElementos(int inter[], int intersec[], int pos, int i,
   return -1;
 }
 
-int ordenaLista(int v[], int contador, int pos) {
+int ordenaLista(int v[], int valorAnterior, int contador, int pos, int ordenada[]) {
   int j, menor_numero;
   menor_numero = pos;
   
   for(j = 0; j < contador; j++) {
-    if(v[menor_numero] > v[j]) {
+    if(pos == 0) {
+      if(v[menor_numero] > v[j]) {
       menor_numero = j;
+      }
+    } else {
+      if(v[menor_numero] > v[j] && v[j] > valorAnterior) {
+        menor_numero = j;
+      }
     }
   }
-  return v[menor_numero];
+  if(menor_numero == pos) {
+    if(pertenceALista(ordenada, v[menor_numero], menor_numero)) {
+      return -1;
+    } else {
+      return v[menor_numero];
+    }
+  }
 }
