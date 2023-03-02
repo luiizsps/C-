@@ -8,12 +8,13 @@ int intercalaElementos(int v[], int v2[], int vetor, int &pos, int &pos2,
                        int &contador);
 int intersecElementos(int inter[], int intersec[], int pos, int i,
                       int &contador);
-int ordenaLista(int v[], int valorAnterior, int contador, int pos, int ordenada[]);
-
+void uniao(int *vetorUniao, int contador);
+void removerPeloIndicie(int *v, int contador, int pos);
 
 int main(void) {
-  int v[10], v2[10], inter[20], intersec[10], ordenada[20], valor,
-      pos = 0, posv, pos2 = 0, tamanhoTotal, valorAnterior, pos2v, max = 10, i, contador = 0, contador2 = 0, contador3 = 0, aux;
+  int v[10], v2[10], inter[20], vetorUniao[20], intersec[10], ordenada[20],
+      valor, pos = 0, posv, pos2 = 0, tamanhoTotal, valorAnterior, pos2v,
+             max = 10, i, contador = 0, contador2 = 0, contador3 = 0, aux, aux2;
 
   do {
     cout << "Primeiro vetor - Informe um inteiro, digite -1 para encerrar: ";
@@ -37,7 +38,9 @@ int main(void) {
   pos2v = pos2;
 
   for (i = 0; i < tamanhoTotal; i++) {
-    inter[i] = intercalaElementos(v, v2, i, posv, pos2v, contador);
+    aux = intercalaElementos(v, v2, i, posv, pos2v, contador);
+    inter[i] = aux;
+    vetorUniao[i] = aux;
   }
   posv = i;
   cout << "Lista intercalada: " << endl;
@@ -47,27 +50,30 @@ int main(void) {
     aux = intersecElementos(inter, intersec, posv, i, contador2);
     if (aux != -1) {
       intersec[contador2] = aux;
-      contador2 ++;
+      contador2++;
     }
   }
-  
+
   if (contador2 == 0) {
     cout << "Sem intersecções." << endl;
   } else {
     cout << "Lista de intersecções: " << endl;
     listar(intersec, contador2);
   }
+  contador3 = posv - contador2;
+  cout << "Lista união: " << endl;
+  uniao(vetorUniao, posv);
+  listar(vetorUniao, contador3);
 
-  cout << "Lista ordenada: " << endl;
-  for(i = 0; i < tamanhoTotal; i++) {
-    valorAnterior = ordenada[i-1];
-    aux = ordenaLista(inter, valorAnterior, tamanhoTotal, i, ordenada);
-    if (aux != -1) {
-      ordenada[i] = aux;
-      contador3++;
-    }
+  cout<< "Informe o indície do vetor a ser removida: " << endl;
+  cin >> pos;
+  if (pos < 0 || pos > contador3 - 1) {
+    cout << "O índicie informado é inválido." << endl;
+  } else {
+    removerPeloIndicie(vetorUniao, contador3, pos);
+    cout << "Nova lista: " << endl;
+    listar(vetorUniao, contador3-1);
   }
-  listar(ordenada, contador3);
 }
 
 void inserirSemRepetir(int v[], int valor, int &pos, int max) {
@@ -123,11 +129,11 @@ int intercalaElementos(int v[], int v2[], int i, int &pos, int &pos2,
 int intersecElementos(int inter[], int intersec[], int pos, int i,
                       int &contador2) {
   int j;
-  
+
   for (j = 0; j < pos; j++) {
     if (j != i) {
       if (inter[j] == inter[i]) {
-        if(!pertenceALista(intersec, inter[i], contador2)) {
+        if (!pertenceALista(intersec, inter[i], contador2)) {
           return inter[i];
         }
       }
@@ -136,26 +142,38 @@ int intersecElementos(int inter[], int intersec[], int pos, int i,
   return -1;
 }
 
-int ordenaLista(int v[], int valorAnterior, int contador, int pos, int ordenada[]) {
-  int j, menor_numero;
-  menor_numero = pos;
-  
-  for(j = 0; j < contador; j++) {
-    if(pos == 0) {
-      if(v[menor_numero] > v[j]) {
-      menor_numero = j;
+void uniao(int *vetorUniao, int contador) {
+  int i, j, aux, vetorAux[20];
+
+  for (i = 0; i < contador - 1; i++) {
+    for (j = i + 1; j < contador; j++) {
+      if (!pertenceALista(vetorAux, vetorUniao[j], i)) {
+        if (vetorUniao[i] > vetorUniao[j]) {
+          aux = vetorUniao[i];
+          vetorUniao[i] = vetorUniao[j];
+          vetorUniao[j] = aux;
+        }
+      } else {
+        aux = vetorUniao[j];
+        vetorUniao[j] = vetorUniao[contador - 1];
+        vetorUniao[contador - 1] = aux;
+        contador--;
       }
-    } else {
-      if(v[menor_numero] > v[j] && v[j] > valorAnterior) {
-        menor_numero = j;
-      }
+      vetorAux[i] = vetorUniao[i];
     }
   }
-  if(menor_numero == pos) {
-    if(pertenceALista(ordenada, v[menor_numero], menor_numero)) {
-      return -1;
-    } else {
-      return v[menor_numero];
+}
+
+void removerPeloIndicie(int *v, int contador, int pos) {
+  int i, j=0, vetorAux[19];
+  for(i=0; i < contador; i++) {
+    if(i != pos) {
+      vetorAux[j] = v[i];
+      j++;
     }
+  }
+
+  for(i=0; i<contador-1; i++) {
+    v[i] = vetorAux[i];
   }
 }
