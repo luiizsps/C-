@@ -3,7 +3,7 @@ using namespace std;
 
 void addPilha(int v[], int &topo, int valor, int n);
 void imprimePilha(int v[], int topo);
-void numToBinary(int v[], int &topo, int valor, int n);
+void intToBinary(int v[], int &topo, int valor, int n);
 
 int main(void) {
   int v[20], valor, topo = -1, n;
@@ -12,7 +12,7 @@ int main(void) {
   cout << "Informe um inteiro: ";
   cin >> valor;
   if(topo < (n-1)) {
-      numToBinary(v, topo, valor, n);
+      intToBinary(v, topo, valor, n);
   }
   imprimePilha(v, topo);
 }
@@ -26,7 +26,7 @@ void addPilha(int v[], int &topo, int valor, int n) {
   }
 }
 
-void numToBinary(int v[], int &topo, int valor, int n) {
+void intToBinary(int v[], int &topo, int valor, int n) {
   do {
     addPilha(v, topo, valor % 2, n);
     valor /= 2;
