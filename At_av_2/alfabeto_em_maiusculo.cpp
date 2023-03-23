@@ -31,6 +31,8 @@ int main(void) {
   while(inicio <= fim) {
     valor = desenfileirar(fila, fim, inicio);
 
+    if (valor == '/') break;
+
     // verifica se o caracter pertence ao alfabeto.
     verificaAlfabeto(valor);
 
@@ -39,6 +41,9 @@ int main(void) {
 
   while(topo >= 0) {
     valor = desempilhar(pilha, topo);
+
+    if (valor == '/') break;
+  
     // a saída deve ser o inverso da entrada
     cout << valor;
   }
@@ -60,6 +65,7 @@ char desenfileirar(char v[], int fim, int &inicio) {
     return v[inicio-1];
   }
   cout << "Fila vazia" << endl;
+  return '/';
 }
 
 void empilhar(char v[], int &topo, char valor) {
@@ -76,6 +82,8 @@ char desempilhar(char v[], int &topo) {
   if(topo >= 0) {
     return v[topo--];
   }
+  cout << "Pilha vazia" << endl;
+  return '/';
 }
 
 void verificaAlfabeto(char &valor) {
@@ -188,4 +196,3 @@ void verificaAlfabeto(char &valor) {
     break;
   }
 }
-
