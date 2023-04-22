@@ -54,7 +54,6 @@ int main(void){
 		cin >> opcao;
 		switch(opcao){
 			case(1): 
-			
 			    cout << "\nDigite o nome do paciente: ";
 			    getline(cin >> ws, pacienteDados.nome);
 			    
@@ -70,20 +69,22 @@ int main(void){
 				
 				cout << "SUCESSO!" << endl;
 				break;
+
 			case(2):
 				cout << "\nDigite o nome do paciente a ser buscado: ";
 				getline(cin >> ws, nome);
 		    	
 		    	codigo = buscarPorNome(listaPaciente, quantidade, nome);
 		    	
-                if(codigo > 0){
+                if(codigo > -1){
                     cout << "\nNome: " << listaPaciente[codigo].nome << endl;
                     cout << "Idade: " << listaPaciente[codigo].idade << endl;
                     cout << "identificador: " << listaPaciente[codigo].identificador << endl << endl;
+                } else {
+                    cout << "Paciente não encontrado!" << endl;
                 }
+				break;
 
-                cout << "Paciente não encontrado!" << endl;
-				break;	
 			case(3):
 				cout << "\nDigite o identificador do paciente a ser buscado: ";
 				cin >> identificador;
@@ -98,18 +99,21 @@ int main(void){
                     cout << "Paciente não encontrado!\n";
                 }
 				break;
+
 			case(4):
 			    ordernarPorQuickSort(listaPaciente, 0, quantidade);
 
 			    cout << "----------------------------------------------------------\n";
 			    exibirPacientes(listaPaciente, quantidade);
 				break;
+
 			case(5):
 			    ordenarPorMergeSort(listaPaciente, 0, quantidade-1);
 			    
 			    cout << "----------------------------------------------------------\n";
 			    exibirPacientes(listaPaciente, quantidade);
 				break;
+
 			default:
 				break;
 		}
@@ -242,7 +246,7 @@ void juntar(Paciente listaPaciente[], int inicio, int meio, int fim){
     k = inicio;
     j = meio + 1;
     while (i <= meio && j <= fim) {
-        if (listaPaciente[i].idade < listaPaciente[j].idade) {
+        if (listaPaciente[i].idade > listaPaciente[j].idade) {
             listaPaciente_temp[k] = listaPaciente[i];
             k++;
             i++;
@@ -268,7 +272,7 @@ void juntar(Paciente listaPaciente[], int inicio, int meio, int fim){
     }
 }
 
-void bubbleSort(Paciente listaPaciente[] , int quantidade) {
+void bubbleSort(Paciente listaPaciente[], int quantidade) {
 	int i,j=1; 
     Paciente aux;
 	while(j != 0) {
