@@ -147,9 +147,6 @@ Paciente buscarPorIdentificador(Paciente listaPaciente[], int identificador, int
     int meio = fim/2;
     int loop = 0;
 
-
-    
-
     while (loop != -1) {
 
         if (fim == inicio) loop = -1;
