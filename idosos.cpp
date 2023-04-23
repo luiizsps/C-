@@ -135,11 +135,9 @@ Paciente buscarPorIdentificador(Paciente listaPaciente[], int identificador, int
     Paciente novaListaPaciente[MAX]; 
     int i;
 
-    // cria vetor cópia
     for(i=0; i< quantidade; i++) 
     novaListaPaciente[i] = listaPaciente[i];
-
-    // ordena cópia pelo id
+	
     bubbleSort(novaListaPaciente, quantidade);
 
     int inicio = 0;
