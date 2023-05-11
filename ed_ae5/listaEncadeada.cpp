@@ -10,10 +10,12 @@ no * insereFrente(no * inicio, int valor);
 void imprimir(no * inicio);
 void substituir(no * inicio, int valor, int novoValor);
 no * removerInicio(no * inicio);
+no * busca(no * inicio, int valor);
+int contaNos(no * inicio);
 
 int main(void) {
-  no * inicio = NULL;
-  int valor, contador=0, pos;
+  no * inicio = NULL, * endereco;
+  int valor, contador, pos;
 
   while(true) {
     cout << "Informe um inteiro: ";
@@ -22,11 +24,12 @@ int main(void) {
     if(valor == -1) break;
 
     inicio = insereFrente(inicio, valor);
-    contador++;
   }
 
   imprimir(inicio);
 
+  contador = contaNos(inicio);
+  
   cout << "Informe a posicao do no a ser alterado: ";
   cin >> pos;
   if(pos < 1 || pos > contador) {
@@ -47,6 +50,16 @@ int main(void) {
   }
 
   imprimir(inicio);
+
+  
+  cout << "Digite um valor a buscar: ";
+  cin >> valor;
+  endereco = busca(inicio, valor);
+
+  if(endereco == NULL) cout << "Valor nao encontrado" << endl;
+  else cout << "O valor " << endereco->valor << " foi encontrado." << endl;
+
+  
 }
 
 no * insereFrente(no * inicio, int valor) {
@@ -96,4 +109,33 @@ no * removerInicio(no * inicio) {
   delete tmp;
 
   return inicio; 
+}
+
+no * busca(no * inicio, int valor) {
+  no * tmp;
+
+  tmp = inicio;
+
+  while(tmp != NULL) {
+    if(tmp->valor == valor) {
+      return tmp;
+    }
+    tmp = tmp->ptr;
+  }
+
+  return NULL;
+}
+
+int contaNos(no * inicio) {
+  no * tmp;
+  int quantidade=0;
+
+  tmp = inicio;
+
+  while(tmp != NULL) {
+    quantidade++;
+    tmp = tmp->ptr;
+  }
+
+  return quantidade;
 }
