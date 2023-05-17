@@ -12,10 +12,13 @@ void substituir(no * inicio, int valor, int novoValor);
 no * removerInicio(no * inicio);
 no * busca(no * inicio, int valor);
 int contaNos(no * inicio);
+no * insereFim(no * inicio, int valor);
+no * removeFim(no * inicio);
+no * concatena(no * inicio1, no * inicio2);
 
 int main(void) {
-  no * inicio = NULL, * endereco;
-  int valor, contador, pos;
+  no * inicio = NULL, * novo_inicio = NULL, * endereco;
+  int i, valor, contador, pos, tamanho;
 
   while(true) {
     cout << "Informe um inteiro: ";
@@ -59,7 +62,24 @@ int main(void) {
   if(endereco == NULL) cout << "Valor nao encontrado" << endl;
   else cout << "O valor " << endereco->valor << " foi encontrado." << endl;
 
-  
+
+  cout << "Informe o tamanho da nova lista: ";
+  cin >> tamanho;
+  for(i=0; i < tamanho; i++) {
+    cout << "Digite um valor a inserir no fim da lista: ";
+    cin >> valor;
+    if(valor < 0) break;
+    novo_inicio = insereFim(novo_inicio, valor);
+  }
+  imprimir(novo_inicio);
+
+  removeFim(novo_inicio);
+
+  imprimir(novo_inicio);
+
+  concatena(inicio, novo_inicio);
+
+  imprimir(inicio);
 }
 
 no * insereFrente(no * inicio, int valor) {
@@ -138,4 +158,51 @@ int contaNos(no * inicio) {
   }
 
   return quantidade;
+}
+
+no * insereFim(no * inicio, int valor) {
+  no * tmp, * aux;
+  tmp = new no;
+  tmp->valor = valor;
+  tmp->ptr = NULL;
+
+  if(inicio == NULL) inicio = tmp;
+  else {
+    aux = inicio;
+    while(aux->ptr != NULL) {
+      aux = aux->ptr;
+    }
+    aux->ptr = tmp;
+  }
+
+  return inicio;
+}
+
+no * removeFim(no * inicio) {
+  no * tmp = inicio, * aux;
+
+  while(tmp->ptr != NULL) {
+    aux = tmp;
+    tmp = tmp->ptr;
+  }
+
+  aux->ptr = NULL;
+  delete tmp;
+
+  return inicio;
+}
+
+no * concatena(no * inicio1, no * inicio2) {
+  no * tmp;
+  if (inicio1 == NULL) {
+    inicio1 = inicio2;
+  } else {
+    tmp = inicio1;
+    while(tmp->ptr != NULL) {
+      tmp = tmp->ptr;
+    }
+    tmp->ptr = inicio2;
+  }
+
+  return inicio1;
 }
